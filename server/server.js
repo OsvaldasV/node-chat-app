@@ -20,6 +20,17 @@ io.on('connection', (socket) => {
 	// 	text: 'Valio!',
 	// 	createdAt: 123
 	// });
+	socket.emit('newMessageAdmin', {
+		from: 'admin@myliukas.lt',
+		text: 'Welcome to chat app!',
+		createdAt: new Date().getTime()
+	});
+
+	socket.broadcast.emit('newBroadcast', {
+		from: 'admin@myliukas.lt',
+		text: 'New user joined(broadcast)!',
+		createdAt: new Date().getTime()
+	});
 
 	socket.on('createMessage', (message) => {
 		console.log('createMessage', message);
@@ -28,6 +39,12 @@ io.on('connection', (socket) => {
 			text: message.text, 
 			createdAt: new Date().getTime()
 		});
+		// broadcasting reiskia, kad emmitinam visiems isskyrus tam, kuris prisijunge
+		// socket.broadcast.emit('newMessage', {
+		// 	from: message.from,
+		// 	text: message.text, 
+		// 	createdAt: new Date().getTime()
+		// });
 	});
 
 	socket.on('disconnect', () => {
