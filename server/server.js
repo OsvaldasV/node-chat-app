@@ -25,9 +25,11 @@ io.on('connection', (socket) => {
 
 	socket.broadcast.emit('newBroadcast', generateMessage('Admin', 'New user has joined'));
 
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {
 		console.log('createMessage', message);
 		io.emit('newMessage', generateMessage(message.from, message.text));
+		// callback yra acknowledgement from server side sitoje vietoje, nueina atgal i emit createMessage callback'a
+		callback('This is from the server');
 		// broadcasting reiskia, kad emmitinam visiems isskyrus tam, kuris prisijunge
 		// socket.broadcast.emit('newMessage', {
 		// 	from: message.from,
